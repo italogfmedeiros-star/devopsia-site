@@ -14,7 +14,7 @@ const LINKS = [
 const CTA_LABEL = "Falar com a gente";
 
 const CTA_CLASSES =
-  "inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-5 py-2.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] transition-all hover:shadow-[0_8px_30px_rgba(56,214,142,0.34)] hover:brightness-105 active:scale-[0.98]";
+  "pop inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-5 py-2.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -23,7 +23,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-background/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#top" className="flex items-center gap-2.5">
+        <a href="#top" className="pop flex items-center gap-2.5">
           <Logo className="h-8 w-8" />
           <Wordmark className="text-foreground text-lg" />
         </a>

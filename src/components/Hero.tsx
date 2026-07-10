@@ -40,8 +40,15 @@ export function Hero() {
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 pt-16 pb-16 sm:px-6 sm:pt-20 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:pt-24 lg:pb-24">
         <div>
-          <motion.h1
+          <motion.span
             {...fadeUp(0)}
+            className="mb-4 inline-block text-xs font-medium uppercase tracking-[0.14em] text-accent"
+          >
+            Especialistas no setor magistral
+          </motion.span>
+
+          <motion.h1
+            {...fadeUp(0.05)}
             className="text-4xl font-semibold leading-[1.1] tracking-tight text-foreground [text-wrap:balance] sm:text-5xl lg:text-6xl"
           >
             Sites e sistemas sob medida,{" "}
@@ -59,14 +66,14 @@ export function Hero() {
           <motion.div {...fadeUp(0.2)} className="mt-9 flex flex-wrap gap-4">
             <a
               href="#contato"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] transition-all hover:shadow-[0_8px_30px_rgba(56,214,142,0.34)] hover:brightness-105 active:scale-[0.98]"
+              className="pop inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105"
             >
               Falar com a gente
               <ArrowRight size={16} weight="bold" />
             </a>
             <a
               href="#servicos"
-              className="glass inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-medium text-foreground active:scale-[0.98]"
+              className="glass inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-medium text-foreground"
             >
               Ver serviços
             </a>

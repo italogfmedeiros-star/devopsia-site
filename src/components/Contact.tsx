@@ -131,7 +131,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={status === "submitting"}
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] transition-all hover:shadow-[0_8px_30px_rgba(56,214,142,0.34)] hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
+                className="pop inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105 disabled:pointer-events-none disabled:opacity-60"
               >
                 {status === "submitting" ? "Enviando..." : "Enviar mensagem"}
               </button>

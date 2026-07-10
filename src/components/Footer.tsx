@@ -15,7 +15,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="max-w-xs">
-            <a href="#top" className="flex items-center gap-2.5">
+            <a href="#top" className="pop flex items-center gap-2.5">
               <Logo className="h-8 w-8" />
               <Wordmark className="text-foreground text-lg" />
             </a>
