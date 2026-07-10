@@ -14,7 +14,10 @@ const STACK = [
 ];
 
 export function TechMarquee() {
-  const track = [...STACK, ...STACK];
+  // 3 copies keep the track wider than the viewport at all times, so the
+  // -33.3333% loop point always has a full set of icons still visible
+  // (2 copies only cover ~888px, less than the max-w-7xl container).
+  const track = [...STACK, ...STACK, ...STACK];
 
   return (
     <section
@@ -22,7 +25,7 @@ export function TechMarquee() {
       className="border-y border-white/[0.06] bg-white/[0.02] py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl"
     >
       <div className="marquee-track mx-auto max-w-7xl overflow-hidden px-4 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] sm:px-6 lg:px-8">
-        <div className="flex w-max animate-marquee items-center gap-16">
+        <div className="flex w-max animate-marquee items-center">
           {track.map((tech, i) => (
             <Image
               key={`${tech.slug}-${i}`}
@@ -31,7 +34,7 @@ export function TechMarquee() {
               width={28}
               height={28}
               unoptimized
-              className="h-7 w-7 shrink-0 opacity-70 transition-all duration-300 hover:scale-110 hover:opacity-100"
+              className="mr-16 h-7 w-7 shrink-0 opacity-70 transition-all duration-300 hover:scale-110 hover:opacity-100"
             />
           ))}
         </div>
