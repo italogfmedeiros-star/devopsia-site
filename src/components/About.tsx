@@ -1,7 +1,7 @@
 "use client";
 
 import { UsersThree, CalendarCheck, GitBranch } from "@phosphor-icons/react";
-import { SpotlightCard } from "./SpotlightCard";
+import { motion, useReducedMotion } from "motion/react";
 
 const POINTS = [
   {
@@ -22,40 +22,49 @@ const POINTS = [
 ];
 
 export function About() {
+  const reduce = useReducedMotion();
+
   return (
     <section id="sobre" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-      <div className="max-w-2xl">
-        <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          Por que empresas escolhem a Devopsia
-        </h2>
-        <p className="mt-4 text-base leading-relaxed text-foreground-muted">
-          Somos um time enxuto de desenvolvedores que prefere entregar bem a
-          entregar rápido demais.
-        </p>
-      </div>
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground [text-wrap:balance] sm:text-4xl">
+            Por que empresas escolhem a Devopsia
+          </h2>
+          <p className="mt-4 max-w-[42ch] text-base leading-relaxed text-foreground-muted">
+            Somos um time enxuto de desenvolvedores que prefere entregar bem a
+            entregar rápido demais.
+          </p>
+        </div>
 
-      <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-3">
-        {POINTS.map((point, i) => (
-          <SpotlightCard
-            key={point.title}
-            delay={i * 0.1}
-            className="group rounded-2xl p-7"
-          >
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-accent/20">
-              <point.icon
-                size={24}
-                weight="duotone"
-                className="transition-transform duration-300 ease-out group-hover:-rotate-6"
-              />
-            </span>
-            <h3 className="mt-5 text-base font-semibold text-foreground">
-              {point.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-              {point.body}
-            </p>
-          </SpotlightCard>
-        ))}
+        <dl className="border-t border-border-soft lg:col-span-7">
+          {POINTS.map((point, i) => (
+            <motion.div
+              key={point.title}
+              initial={reduce ? {} : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex gap-5 border-b border-border-soft py-7 first:pt-0"
+            >
+              <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-accent/20">
+                <point.icon
+                  size={22}
+                  weight="duotone"
+                  className="transition-transform duration-300 ease-out group-hover:-rotate-6"
+                />
+              </span>
+              <div>
+                <dt className="text-base font-semibold text-foreground">
+                  {point.title}
+                </dt>
+                <dd className="mt-1.5 max-w-[50ch] text-sm leading-relaxed text-foreground-muted">
+                  {point.body}
+                </dd>
+              </div>
+            </motion.div>
+          ))}
+        </dl>
       </div>
     </section>
   );
