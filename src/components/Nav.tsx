@@ -14,7 +14,7 @@ const LINKS = [
 const CTA_LABEL = "Falar com a gente";
 
 const CTA_CLASSES =
-  "pop inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-5 py-2.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105";
+  "pop inline-flex items-center justify-center rounded-xl bg-gradient-to-b from-[#41e59b] to-[#25b374] px-5 py-2.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105";
 
 export function Nav() {
   const [open, setOpen] = useState(false);

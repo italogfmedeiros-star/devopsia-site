@@ -1,11 +1,28 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "@phosphor-icons/react";
 import { HeroDevices } from "./HeroDevices";
 
+const HEADLINES = [
+  { lead: "Sites e sistemas sob medida,", accent: "do zero à produção." },
+  { lead: "Engenharia de ponta", accent: "construída e mantida por IA." },
+  { lead: "Design, desempenho e segurança", accent: "como pilares." },
+];
+
+const HEADLINE_INTERVAL_MS = 5000;
+
 export function Hero() {
   const reduce = useReducedMotion();
+  const [headlineIndex, setHeadlineIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeadlineIndex((i) => (i + 1) % HEADLINES.length);
+    }, HEADLINE_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
 
   const fadeUp = (delay: number) =>
     reduce
@@ -51,8 +68,29 @@ export function Hero() {
             {...fadeUp(0.05)}
             className="text-4xl font-semibold leading-[1.1] tracking-tight text-foreground [text-wrap:balance] sm:text-5xl lg:text-6xl"
           >
-            Sites e sistemas sob medida,{" "}
-            <span className="text-gradient-accent">do zero à produção.</span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={headlineIndex}
+                initial={
+                  reduce
+                    ? {}
+                    : { opacity: 0, filter: "blur(9px) contrast(280%)" }
+                }
+                animate={{ opacity: 1, filter: "blur(0px) contrast(100%)" }}
+                exit={
+                  reduce
+                    ? {}
+                    : { opacity: 0, filter: "blur(9px) contrast(280%)" }
+                }
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="inline-block"
+              >
+                {HEADLINES[headlineIndex].lead}{" "}
+                <span className="text-gradient-accent">
+                  {HEADLINES[headlineIndex].accent}
+                </span>
+              </motion.span>
+            </AnimatePresence>
           </motion.h1>
 
           <motion.p
@@ -67,14 +105,14 @@ export function Hero() {
           <motion.div {...fadeUp(0.2)} className="mt-9 flex flex-wrap gap-4">
             <a
               href="#contato"
-              className="pop inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105"
+              className="pop inline-flex items-center gap-2 rounded-xl bg-gradient-to-b from-[#41e59b] to-[#25b374] px-6 py-3.5 text-sm font-medium text-accent-on shadow-[0_8px_24px_rgba(56,214,142,0.22)] hover:shadow-[0_12px_32px_rgba(56,214,142,0.4)] hover:brightness-105"
             >
               Falar com a gente
               <ArrowRight size={16} weight="bold" />
             </a>
             <a
               href="#servicos"
-              className="glass inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-medium text-foreground"
+              className="glass inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-medium text-foreground"
             >
               Ver serviços
             </a>
