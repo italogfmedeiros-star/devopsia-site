@@ -59,8 +59,9 @@ export function Hero() {
             {...fadeUp(0.1)}
             className="mt-6 max-w-[46ch] text-base leading-relaxed text-foreground-muted sm:text-lg"
           >
-            A Devopsia projeta, desenvolve e mantém software para empresas
-            que não podem depender de atalhos.
+            A Devopsia projeta, desenvolve e mantém software com engenharia
+            assistida por IA, para empresas que não podem depender de
+            atalhos.
           </motion.p>
 
           <motion.div {...fadeUp(0.2)} className="mt-9 flex flex-wrap gap-4">
