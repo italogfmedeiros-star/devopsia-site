@@ -19,7 +19,7 @@ const PROJECTS: Project[] = [
     tag: "Sistema web · Farmácia de manipulação",
     description:
       "Substituiu o controle manual da produção por um painel único: cada fórmula é acompanhada da conferência até a entrega, com alertas automáticos de atraso e risco por filial.",
-    stat: "854 fórmulas em produção monitoradas ao mesmo tempo",
+    stat: "Cada fórmula da produção a expedição monitoradas ao mesmo tempo",
   },
   {
     index: "02",
@@ -35,17 +35,17 @@ const PROJECTS: Project[] = [
     name: "Derma Assist",
     tag: "Sistema web · Gestão de T.I.",
     description:
-      "Gestão completa do parque de equipamentos de T.I: quem está com o quê, o que está pendente de devolução e o valor total do inventário, em um só lugar.",
-    stat: "59 equipamentos e R$ 25.493,40 em inventário sob controle",
+      "Gestão completa dos equipamentos de T.I: quem está com o quê, o que está pendente de devolução e o valor total do inventário, em um só lugar.",
+    stat: "Inventário de equipamentos e com valores individuais sob seu controle",
   },
   {
     index: "04",
-    name: "SP Drones",
-    tag: "Site institucional · Serviços audiovisuais",
+    name: "Site Dermaflora",
+    tag: "Site institucional · Farmácia de manipulação",
     description:
-      "Site institucional para captar clientes de filmagem e fotografia aérea com drone, com identidade visual própria e contato direto por WhatsApp.",
-    stat: "“Uma nova perspectiva de visão.”",
-    url: "https://www.spdrone.com.br/",
+      "Site institucional da farmácia de manipulação Dermaflora com uma nova identidade visual, moderno e alinhado com nossos propósitos.",
+    stat: "“Dermaflora 45 anos.”",
+    url: "https://www.dermaflora.com.br/",
   },
 ];
 
