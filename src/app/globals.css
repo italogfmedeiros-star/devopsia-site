@@ -80,9 +80,16 @@ body::after {
     radial-gradient(ellipse 62% 50% at 72% 108%, rgba(120, 138, 158, 0.09), transparent 62%);
 }
 
-/* Frosted glass surface: gradient fill + edge refraction highlight */
+/* Frosted glass surface: gradient fill + edge refraction highlight.
+   Does NOT set `position` itself: the ::before refraction ring below
+   needs *some* positioned ancestor, but forcing `position: relative`
+   here would beat a Tailwind `absolute`/`fixed` utility combined on the
+   same element (e.g. Services' "glass absolute right-7 top-7" mockup
+   badge) — Lightning CSS merges our custom rule with Tailwind's utility
+   layer at build time, so `@layer` tricks don't protect against that.
+   Callers that don't already get positioning from another class (e.g.
+   `.spotlight`, or their own `absolute`) add `relative` in their JSX. */
 .glass {
-  position: relative;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.06),

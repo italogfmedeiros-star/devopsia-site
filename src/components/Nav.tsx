@@ -63,7 +63,7 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
-          className="glass flex h-10 w-10 items-center justify-center rounded-xl text-foreground lg:hidden"
+          className="glass relative flex h-10 w-10 items-center justify-center rounded-xl text-foreground lg:hidden"
         >
           {open ? <X size={20} /> : <List size={20} />}
         </motion.button>

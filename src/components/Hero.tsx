@@ -112,7 +112,7 @@ export function Hero() {
             </a>
             <a
               href="#servicos"
-              className="glass inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-medium text-foreground"
+              className="glass relative inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-medium text-foreground"
             >
               Ver serviços
             </a>
