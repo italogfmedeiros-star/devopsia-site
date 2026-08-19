@@ -28,13 +28,25 @@ export function About() {
     <section id="sobre" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
-          <h2 className="text-3xl font-semibold tracking-tight text-foreground [text-wrap:balance] sm:text-4xl">
+          <motion.h2
+            initial={reduce ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl font-semibold tracking-tight text-foreground [text-wrap:balance] sm:text-4xl"
+          >
             Por que empresas escolhem a Devopsia
-          </h2>
-          <p className="mt-4 max-w-[42ch] text-base leading-relaxed text-foreground-muted">
+          </motion.h2>
+          <motion.p
+            initial={reduce ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 max-w-[42ch] text-base leading-relaxed text-foreground-muted"
+          >
             Somos um time enxuto de desenvolvedores que prefere entregar bem a
             entregar rápido demais.
-          </p>
+          </motion.p>
         </div>
 
         <dl className="border-t border-border-soft lg:col-span-7">

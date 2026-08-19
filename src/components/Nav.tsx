@@ -20,34 +20,45 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
 
+  const fadeDown = (delay: number) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: -10 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as const },
+        };
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-background/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#top" className="pop flex items-center gap-2.5">
+        <motion.a {...fadeDown(0)} href="#top" className="pop flex items-center gap-2.5">
           <Logo className="h-8 w-8" />
           <Wordmark className="text-foreground text-lg" />
-        </a>
+        </motion.a>
 
         <nav className="hidden lg:flex lg:items-center lg:gap-8">
-          {LINKS.map((link) => (
-            <a
+          {LINKS.map((link, i) => (
+            <motion.a
               key={link.href}
+              {...fadeDown(0.1 + i * 0.05)}
               href={link.href}
               className="group relative text-sm text-foreground-muted transition-colors hover:text-foreground"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" />
-            </a>
+            </motion.a>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <motion.div {...fadeDown(0.25)} className="hidden lg:block">
           <a href="#contato" className={CTA_CLASSES}>
             {CTA_LABEL}
           </a>
-        </div>
+        </motion.div>
 
-        <button
+        <motion.button
+          {...fadeDown(0.1)}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -55,7 +66,7 @@ export function Nav() {
           className="glass flex h-10 w-10 items-center justify-center rounded-xl text-foreground lg:hidden"
         >
           {open ? <X size={20} /> : <List size={20} />}
-        </button>
+        </motion.button>
       </div>
 
       <AnimatePresence>

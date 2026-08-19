@@ -38,6 +38,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Keep anchored section titles clear of the sticky nav (h-16 = 4rem)
+   when jumping via #links or browser back/forward. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--accent);
@@ -76,6 +82,7 @@ body::after {
 
 /* Frosted glass surface: gradient fill + edge refraction highlight */
 .glass {
+  position: relative;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.06),
@@ -91,6 +98,33 @@ body::after {
     border-color 0.3s ease,
     transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s ease;
+}
+
+/* Liquid-glass refraction ring: a gradient hairline that catches light at the
+   top and bottom edges, like light bending through glass. Sits just inside
+   the real border so it never fights the border-color hover transition. */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.08) 22%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(255, 255, 255, 0.1) 85%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 a.glass:hover,
@@ -110,6 +144,10 @@ button.glass:active {
     background: var(--background-elevated);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+
+  .glass::before {
+    display: none;
   }
 }
 
@@ -204,6 +242,40 @@ button.glass:active {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Shiny sweep for the hero headline accent: a highlight glides through the
+   gradient on a loop, like light catching brushed metal. */
+.text-shine {
+  background-image: linear-gradient(
+    100deg,
+    var(--accent) 0%,
+    var(--accent) 35%,
+    #eafff4 50%,
+    var(--accent) 65%,
+    var(--accent) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 160% center;
+  }
+  100% {
+    background-position: -60% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-shine {
+    animation: none;
+    background-position: 50% center;
+  }
 }
 
 @keyframes marquee {

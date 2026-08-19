@@ -86,7 +86,7 @@ export function Hero() {
                 className="inline-block"
               >
                 {HEADLINES[headlineIndex].lead}{" "}
-                <span className="text-gradient-accent">
+                <span className="text-shine">
                   {HEADLINES[headlineIndex].accent}
                 </span>
               </motion.span>

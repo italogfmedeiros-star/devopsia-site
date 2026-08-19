@@ -103,17 +103,30 @@ export function Services() {
   const { gridRef, setTileRef, slices } = useScreenSlices(4);
   const screenIndex = useScreenRotation(SCREEN_IMAGES.length);
   const screenImage = SCREEN_IMAGES[screenIndex];
+  const reduce = useReducedMotion();
 
   return (
     <section id="servicos" className="bg-background-soft/40">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-        <h2 className="max-w-xl text-3xl font-semibold tracking-tight text-foreground [text-wrap:balance] sm:text-4xl">
+        <motion.h2
+          initial={reduce ? {} : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-xl text-3xl font-semibold tracking-tight text-foreground [text-wrap:balance] sm:text-4xl"
+        >
           O que fazemos
-        </h2>
-        <p className="mt-4 max-w-[55ch] text-base leading-relaxed text-foreground-muted">
+        </motion.h2>
+        <motion.p
+          initial={reduce ? {} : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-4 max-w-[55ch] text-base leading-relaxed text-foreground-muted"
+        >
           Do primeiro rascunho ao suporte pós-lançamento, cuidamos de cada
           etapa do seu produto digital.
-        </p>
+        </motion.p>
 
         <div
           ref={gridRef}
