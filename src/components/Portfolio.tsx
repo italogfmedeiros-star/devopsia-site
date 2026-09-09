@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { ScrollDistortTitle } from "./ScrollDistortTitle";
 
 type Project = {
   index: string;
@@ -93,7 +94,7 @@ export function Portfolio() {
                   {project.index}
                 </span>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground transition-transform duration-300 group-hover:translate-x-1">
-                  {project.name}
+                  <ScrollDistortTitle text={project.name} />
                 </h3>
                 <p className="mt-2 text-sm text-foreground-muted">{project.tag}</p>
               </div>
