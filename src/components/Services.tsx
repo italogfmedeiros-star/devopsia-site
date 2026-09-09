@@ -1,108 +1,140 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { AppWindow, Wrench, Plugs, Globe } from "@phosphor-icons/react";
-import { SpotlightCard } from "./SpotlightCard";
 
-const SCREEN_IMAGES = [
-  "/work/dermasys.png",
-  "/work/busca-formula.png",
-  "/work/gestao-ativos.png",
-  "/work/relatorio-medico.png",
+type Service = {
+  index: string;
+  icon: typeof Globe;
+  title: string;
+  description: string;
+  image: string;
+};
+
+const SERVICES: Service[] = [
+  {
+    index: "01",
+    icon: Globe,
+    title: "Sites e landing pages",
+    description:
+      "Sites institucionais e páginas de conversão, rápidos, responsivos e prontos para SEO desde o primeiro deploy.",
+    image: "/work/busca-formula.png",
+  },
+  {
+    index: "02",
+    icon: AppWindow,
+    title: "Aplicativos e sistemas web",
+    description:
+      "Portais, dashboards e ferramentas internas construídos sob medida para o fluxo de trabalho da sua equipe.",
+    image: "/work/dermasys.png",
+  },
+  {
+    index: "03",
+    icon: Plugs,
+    title: "Integrações",
+    description:
+      "Pagamentos, ERPs, CRMs e APIs próprias conectados ao seu produto.",
+    image: "/work/gestao-ativos.png",
+  },
+  {
+    index: "04",
+    icon: Wrench,
+    title: "Manutenção e evolução",
+    description:
+      "Depois do ar, continuamos por perto: correções, novas funcionalidades e monitoramento.",
+    image: "/work/relatorio-medico.png",
+  },
 ];
 
-const ROTATE_INTERVAL_MS = 5000;
+function cx(...classes: Array<string | false | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
 
-function useScreenRotation(imageCount: number) {
+function ServicePanel({
+  service,
+  isActive,
+  onActivate,
+}: {
+  service: Service;
+  isActive: boolean;
+  onActivate: () => void;
+}) {
   const reduce = useReducedMotion();
-  const [index, setIndex] = useState(0);
+  const Icon = service.icon;
 
-  useEffect(() => {
-    if (reduce || imageCount < 2) return;
-    const id = setInterval(() => {
-      setIndex((i) => (i + 1) % imageCount);
-    }, ROTATE_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, [reduce, imageCount]);
-
-  return index;
-}
-
-type Slice = { size: string; position: string };
-
-const IDLE_SLICE: Slice = { size: "cover", position: "50% 50%" };
-
-function useScreenSlices(tileCount: number) {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const tileRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [slices, setSlices] = useState<Slice[]>(() => Array(tileCount).fill(IDLE_SLICE));
-
-  function setTileRef(index: number) {
-    return (el: HTMLDivElement | null) => {
-      tileRefs.current[index] = el;
-    };
-  }
-
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    function measure() {
-      if (!grid) return;
-      const { offsetWidth, offsetHeight } = grid;
-      setSlices(
-        tileRefs.current.map((tile) =>
-          tile
-            ? {
-                size: `${offsetWidth}px ${offsetHeight}px`,
-                position: `-${tile.offsetLeft}px -${tile.offsetTop}px`,
-              }
-            : IDLE_SLICE,
-        ),
-      );
-    }
-
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(grid);
-    return () => ro.disconnect();
-  }, [tileCount]);
-
-  return { gridRef, setTileRef, slices };
-}
-
-function ScreenLayer({ slice, image }: { slice: Slice; image: string }) {
   return (
-    <>
-      <AnimatePresence>
-        <motion.div
-          key={image}
-          aria-hidden="true"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.7 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: "easeInOut" }}
-          className="absolute inset-0 bg-no-repeat grayscale blur-[3px] transition-transform duration-700 group-hover:scale-105"
-          style={{
-            backgroundImage: `url(${image})`,
-            backgroundSize: slice.size,
-            backgroundPosition: slice.position,
-          }}
-        />
-      </AnimatePresence>
+    <motion.button
+      type="button"
+      layout={!reduce}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      onClick={onActivate}
+      onMouseEnter={onActivate}
+      aria-pressed={isActive}
+      className={cx(
+        "group relative overflow-hidden rounded-2xl border border-border-soft text-left outline-none focus-visible:border-accent",
+        isActive ? "h-[280px] lg:h-auto lg:flex-[3]" : "h-16 lg:h-auto lg:flex-1",
+      )}
+    >
+      {/* background image, tinted to match the rest of the site */}
+      <div
+        aria-hidden="true"
+        className={cx(
+          "absolute inset-0 bg-cover bg-center grayscale blur-[2px] transition-[opacity,filter] duration-500",
+          isActive ? "opacity-60 blur-0" : "opacity-30",
+        )}
+        style={{ backgroundImage: `url(${service.image})` }}
+      />
       <div
         aria-hidden="true"
         className="absolute inset-0 mix-blend-color bg-gradient-to-br from-background via-accent-dim/70 to-accent/60"
       />
-    </>
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/50" />
+
+      {/* index label, top-right — same numbering language as Portfolio */}
+      <span className="absolute right-4 top-4 font-mono text-xs text-foreground-dim">
+        {service.index}
+      </span>
+
+      <Icon
+        size={24}
+        weight="duotone"
+        className={cx(
+          "absolute left-4 top-4 text-accent transition-transform duration-300 ease-out",
+          isActive ? "" : "lg:left-1/2 lg:top-6 lg:-translate-x-1/2",
+        )}
+      />
+
+      {/* collapsed label — vertical spine on desktop, horizontal on mobile/expanded */}
+      <span
+        className={cx(
+          "absolute font-medium text-foreground transition-opacity duration-300",
+          isActive
+            ? "inset-x-16 top-4 text-sm opacity-0 lg:opacity-0"
+            : "inset-x-16 top-4 text-sm opacity-100 lg:inset-x-0 lg:bottom-4 lg:top-auto lg:text-center lg:text-xs lg:[writing-mode:vertical-rl] lg:[transform:rotate(180deg)] lg:opacity-100",
+        )}
+      >
+        {service.title}
+      </span>
+
+      {/* expanded content */}
+      <div
+        className={cx(
+          "relative flex h-full min-h-[220px] flex-col justify-end p-6 transition-opacity duration-300",
+          isActive ? "opacity-100 delay-150" : "pointer-events-none opacity-0",
+        )}
+      >
+        <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
+        <p className="mt-2 max-w-[42ch] text-sm leading-relaxed text-foreground-muted">
+          {service.description}
+        </p>
+      </div>
+    </motion.button>
   );
 }
 
 export function Services() {
-  const { gridRef, setTileRef, slices } = useScreenSlices(4);
-  const screenIndex = useScreenRotation(SCREEN_IMAGES.length);
-  const screenImage = SCREEN_IMAGES[screenIndex];
+  const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
 
   return (
@@ -128,132 +160,15 @@ export function Services() {
           etapa do seu produto digital.
         </motion.p>
 
-        <div
-          ref={gridRef}
-          className="relative mt-12 grid grid-cols-1 gap-5 lg:grid-cols-12 lg:grid-rows-2"
-        >
-          <div
-            ref={setTileRef(0)}
-            className="lg:col-span-7 lg:row-span-2"
-          >
-            <SpotlightCard className="group relative h-full overflow-hidden rounded-2xl">
-              <ScreenLayer slice={slices[0]} image={screenImage} />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-accent/15 blur-[110px] transition-transform duration-700 group-hover:scale-110"
-              />
-              <div
-                aria-hidden="true"
-                className="glass absolute right-7 top-7 hidden w-60 overflow-hidden rounded-xl sm:block"
-              >
-                <div className="flex items-center gap-1.5 border-b border-border-soft px-3 py-2.5">
-                  <span className="h-2 w-2 rounded-full bg-foreground-dim/30" />
-                  <span className="h-2 w-2 rounded-full bg-foreground-dim/30" />
-                  <span className="h-2 w-2 rounded-full bg-accent/60" />
-                </div>
-                <div className="space-y-2 p-4">
-                  <div className="h-2 w-3/4 rounded-full bg-foreground-dim/20" />
-                  <div className="h-2 w-1/2 rounded-full bg-foreground-dim/20" />
-                  <div className="h-14 rounded-lg bg-gradient-to-br from-accent/20 via-accent/5 to-transparent" />
-                </div>
-              </div>
-              <div className="relative flex h-full min-h-[260px] flex-col justify-end p-7">
-                <Globe
-                  size={26}
-                  className="mb-4 text-accent transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110"
-                  weight="duotone"
-                />
-                <h3 className="text-xl font-semibold text-foreground">
-                  Sites e landing pages
-                </h3>
-                <p className="mt-2 max-w-[42ch] text-sm leading-relaxed text-foreground-muted">
-                  Sites institucionais e páginas de conversão, rápidos, responsivos
-                  e prontos para SEO desde o primeiro deploy.
-                </p>
-              </div>
-            </SpotlightCard>
-          </div>
-
-          <div
-            ref={setTileRef(1)}
-            className="lg:col-span-5"
-          >
-            <SpotlightCard
-              delay={0.08}
-              className="group relative h-full overflow-hidden rounded-2xl p-7"
-            >
-              <ScreenLayer slice={slices[1]} image={screenImage} />
-              <div className="absolute inset-0 bg-background/70" />
-              <div className="relative">
-                <AppWindow
-                  size={26}
-                  className="mb-4 text-accent transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110"
-                  weight="duotone"
-                />
-                <h3 className="text-xl font-semibold text-foreground">
-                  Aplicativos e sistemas web
-                </h3>
-                <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-foreground-muted">
-                  Portais, dashboards e ferramentas internas construídos sob medida
-                  para o fluxo de trabalho da sua equipe.
-                </p>
-              </div>
-            </SpotlightCard>
-          </div>
-
-          <div
-            ref={setTileRef(2)}
-            className="lg:col-span-2"
-          >
-            <SpotlightCard
-              delay={0.16}
-              className="group relative h-full overflow-hidden rounded-2xl p-7"
-            >
-              <ScreenLayer slice={slices[2]} image={screenImage} />
-              <div className="absolute inset-0 bg-background/70" />
-              <div className="relative">
-                <Plugs
-                  size={26}
-                  className="mb-4 text-accent transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110"
-                  weight="duotone"
-                />
-                <h3 className="text-lg font-semibold text-foreground">
-                  Integrações
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-                  Pagamentos, ERPs, CRMs e APIs próprias conectados ao seu produto.
-                </p>
-              </div>
-            </SpotlightCard>
-          </div>
-
-          <div
-            ref={setTileRef(3)}
-            className="lg:col-span-3"
-          >
-            <SpotlightCard
-              delay={0.24}
-              className="group relative h-full overflow-hidden rounded-2xl p-7"
-            >
-              <ScreenLayer slice={slices[3]} image={screenImage} />
-              <div className="absolute inset-0 bg-background/70" />
-              <div className="relative">
-                <Wrench
-                  size={26}
-                  className="mb-4 text-accent transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-110"
-                  weight="duotone"
-                />
-                <h3 className="text-lg font-semibold text-foreground">
-                  Manutenção e evolução
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground-muted">
-                  Depois do ar, continuamos por perto: correções, novas
-                  funcionalidades e monitoramento.
-                </p>
-              </div>
-            </SpotlightCard>
-          </div>
+        <div className="mt-12 flex flex-col gap-3 lg:h-[440px] lg:flex-row">
+          {SERVICES.map((service, i) => (
+            <ServicePanel
+              key={service.title}
+              service={service}
+              isActive={active === i}
+              onActivate={() => setActive(i)}
+            />
+          ))}
         </div>
       </div>
     </section>
