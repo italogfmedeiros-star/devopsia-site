@@ -75,6 +75,15 @@ function ServicePanel({
         "group relative overflow-hidden rounded-2xl border border-border-soft text-left outline-none focus-visible:border-accent",
         isActive ? "h-[280px] lg:h-auto lg:flex-[3]" : "h-16 lg:h-auto lg:flex-1",
       )}
+      style={{
+        // Chrome/Safari can fail to clip a filtered child (the blurred
+        // background image below) to this element's rounded corners once
+        // it's promoted to its own compositing layer by the `layout`
+        // animation above — the image then paints past the border-radius.
+        // Forcing a mask on this element fixes the composition.
+        WebkitMaskImage: "-webkit-radial-gradient(circle, white 100%, black 100%)",
+        maskImage: "radial-gradient(circle, white 100%, black 100%)",
+      }}
     >
       {/* background image, tinted to match the rest of the site */}
       <div
