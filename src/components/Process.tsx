@@ -270,7 +270,7 @@ function CardStack() {
   const progress = useTransform(scrollYProgress, (v) => dwell(v * (STEPS.length - 1)));
 
   return (
-    <div ref={ref} style={{ height: `calc(100dvh + ${(STEPS.length - 1) * 85}dvh)` }}>
+    <div ref={ref} style={{ height: `calc(100dvh + ${(STEPS.length - 1) * 115}dvh)` }}>
       <div className="sticky top-16 flex h-[calc(100dvh-4rem)] items-center">
         <ol className="relative mt-10 h-[min(70dvh,620px)] w-full">
           {STEPS.map((step, i) => (
