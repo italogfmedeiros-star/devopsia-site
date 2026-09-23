@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, type ReactNode } from "react";
 import {
   motion,
@@ -27,9 +28,9 @@ function DiscoveryScene() {
       <rect width="800" height="500" fill="url(#p-disc-glow)" />
       <g fill="none" stroke={ACCENT}>
         {[50, 100, 150, 200, 250, 300].map((r, i) => (
-          <circle key={r} cx="540" cy="190" r={r} strokeOpacity={0.5 - i * 0.07} />
+          <circle key={r} cx="540" cy="190" r={r} strokeWidth="2.5" strokeOpacity={0.75 - i * 0.1} />
         ))}
-        <line x1="540" y1="190" x2="770" y2="60" strokeOpacity="0.6" strokeWidth="2" />
+        <line x1="540" y1="190" x2="770" y2="60" strokeOpacity="0.9" strokeWidth="3.5" />
       </g>
       {[
         [610, 120],
@@ -160,9 +161,9 @@ function ShipScene() {
         />
         <circle cx={(bars.length - 1) * 30 + 9} cy={260 - bars[bars.length - 1] - 24} r="7" fill={ACCENT} />
         <g transform="translate(250 0)">
-          <rect width="130" height="34" rx="17" fill="#0e1013" stroke="#ffffff" strokeOpacity="0.14" />
+          <rect width="130" height="34" rx="17" fill="#0e1013" stroke={ACCENT} strokeOpacity="0.6" strokeWidth="1.5" />
           <circle cx="20" cy="17" r="5" fill={ACCENT} />
-          <text x="34" y="22" fontFamily="monospace" fontSize="13" fill="#ffffff" fillOpacity="0.8">
+          <text x="34" y="22" fontFamily="monospace" fontSize="13" fontWeight="700" fill="#ffffff">
             99.9% up
           </text>
         </g>
@@ -171,25 +172,37 @@ function ShipScene() {
   );
 }
 
-const STEPS: { title: string; body: string; scene: ReactNode }[] = [
+const STEPS: {
+  title: string;
+  body: string;
+  image: string;
+  imagePosition?: string;
+  scene: ReactNode;
+}[] = [
   {
     title: "Descoberta",
     body: "Entendemos seu negócio, seus usuários e o que realmente precisa ser construído.",
+    image: "/process/descoberta.webp",
     scene: <DiscoveryScene />,
   },
   {
     title: "Design",
     body: "Prototipamos telas e fluxos antes de escrever a primeira linha de código.",
+    image: "/process/design.webp",
+    imagePosition: "50% 45%",
     scene: <DesignScene />,
   },
   {
     title: "Desenvolvimento",
     body: "Construímos em ciclos curtos, com entregas visíveis a cada semana.",
+    image: "/process/desenvolvimento.webp",
+    imagePosition: "50% 35%",
     scene: <BuildScene />,
   },
   {
     title: "Entrega e suporte",
     body: "Colocamos no ar e continuamos por perto para evoluir o produto.",
+    image: "/process/suporte.webp",
     scene: <ShipScene />,
   },
 ];
@@ -199,16 +212,26 @@ type Step = (typeof STEPS)[number];
 function CardFace({ step, index, animate }: { step: Step; index: number; animate: boolean }) {
   return (
     <>
+      {/* Photo and brand scene zoom together. The photo is dimmed to keep
+          the page dark; the scene sits on top, blurred, as a green glow. */}
       <div
         aria-hidden="true"
-        className={`absolute inset-0 -z-10 max-sm:top-20 ${animate ? "animate-kenburns" : ""}`}
+        className={`absolute inset-0 -z-10 ${animate ? "animate-kenburns" : ""}`}
         style={animate ? { animationDelay: `${-index * 4.5}s` } : undefined}
       >
-        {step.scene}
+        <Image
+          src={step.image}
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 1216px, 100vw"
+          className="object-cover brightness-[0.45] saturate-[0.75]"
+          style={step.imagePosition ? { objectPosition: step.imagePosition } : undefined}
+        />
+        <div className="absolute inset-0 mix-blend-screen blur-[2px]">{step.scene}</div>
       </div>
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/30 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/40 to-black/20"
       />
       <div className="flex items-center gap-3 p-6 sm:p-10">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-b from-[#41e59b] to-[#25b374] font-mono text-sm font-semibold text-accent-on shadow-[0_4px_16px_rgba(56,214,142,0.25)]">
