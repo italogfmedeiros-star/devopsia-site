@@ -302,6 +302,20 @@ button.glass:active {
   animation-play-state: paused;
 }
 
+@keyframes kenburns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.09);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 18s ease-out infinite alternate;
+  will-change: transform;
+}
+
 @keyframes drift {
   0%,
   100% {
