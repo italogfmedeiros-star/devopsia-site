@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { AppWindow, Wrench, Plugs, Globe } from "@phosphor-icons/react";
+import { SERVICE_PREVIEWS, type ServicePreviewKey } from "./ServicePreviews";
 
 type Service = {
   index: string;
   icon: typeof Globe;
   title: string;
   description: string;
-  image: string;
+  preview: ServicePreviewKey;
 };
 
 const SERVICES: Service[] = [
@@ -19,7 +20,7 @@ const SERVICES: Service[] = [
     title: "Sites e landing pages",
     description:
       "Sites institucionais e páginas de conversão, rápidos, responsivos e prontos para SEO desde o primeiro deploy.",
-    image: "/work/busca-formula.png",
+    preview: "landing",
   },
   {
     index: "02",
@@ -27,7 +28,7 @@ const SERVICES: Service[] = [
     title: "Aplicativos e sistemas web",
     description:
       "Portais, dashboards e ferramentas internas construídos sob medida para o fluxo de trabalho da sua equipe.",
-    image: "/work/dermasys.png",
+    preview: "app",
   },
   {
     index: "03",
@@ -35,7 +36,7 @@ const SERVICES: Service[] = [
     title: "Integrações",
     description:
       "Pagamentos, ERPs, CRMs e APIs próprias conectados ao seu produto.",
-    image: "/work/gestao-ativos.png",
+    preview: "integration",
   },
   {
     index: "04",
@@ -43,7 +44,7 @@ const SERVICES: Service[] = [
     title: "Manutenção e evolução",
     description:
       "Depois do ar, continuamos por perto: correções, novas funcionalidades e monitoramento.",
-    image: "/work/relatorio-medico.png",
+    preview: "maintenance",
   },
 ];
 
@@ -62,6 +63,7 @@ function ServicePanel({
 }) {
   const reduce = useReducedMotion();
   const Icon = service.icon;
+  const Preview = SERVICE_PREVIEWS[service.preview];
 
   return (
     <motion.button
@@ -72,12 +74,12 @@ function ServicePanel({
       onMouseEnter={onActivate}
       aria-pressed={isActive}
       className={cx(
-        "group relative overflow-hidden rounded-2xl border border-border-soft text-left outline-none focus-visible:border-accent",
-        isActive ? "h-[280px] lg:h-auto lg:flex-[3]" : "h-16 lg:h-auto lg:flex-1",
+        "group relative overflow-hidden rounded-2xl border border-border-soft bg-background-elevated/50 text-left outline-none focus-visible:border-accent",
+        isActive ? "h-[500px] lg:h-auto lg:flex-[3]" : "h-16 lg:h-auto lg:flex-1",
       )}
       style={{
-        // Chrome/Safari can fail to clip a filtered child (the blurred
-        // background image below) to this element's rounded corners once
+        // Chrome/Safari can fail to clip a filtered child (the preview's
+        // blurred shadows below) to this element's rounded corners once
         // it's promoted to its own compositing layer by the `layout`
         // animation above — the image then paints past the border-radius.
         // Forcing a mask on this element fixes the composition.
@@ -85,20 +87,14 @@ function ServicePanel({
         maskImage: "radial-gradient(circle, white 100%, black 100%)",
       }}
     >
-      {/* background image, tinted to match the rest of the site */}
+      {/* soft accent glow behind the preview */}
       <div
         aria-hidden="true"
         className={cx(
-          "absolute inset-0 bg-cover bg-center grayscale blur-[2px] transition-[opacity,filter] duration-500",
-          isActive ? "opacity-60 blur-0" : "opacity-30",
+          "absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_75%_0%,rgba(56,214,142,0.14),transparent_70%)] transition-opacity duration-500",
+          isActive ? "opacity-100" : "opacity-0",
         )}
-        style={{ backgroundImage: `url(${service.image})` }}
       />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 mix-blend-color bg-gradient-to-br from-background via-accent-dim/70 to-accent/60"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/50" />
 
       {/* index label, top-right — same numbering language as Portfolio */}
       <span className="absolute right-4 top-4 font-mono text-xs text-foreground-dim">
@@ -129,11 +125,14 @@ function ServicePanel({
       {/* expanded content */}
       <div
         className={cx(
-          "relative flex h-full min-h-[220px] flex-col justify-end p-6 transition-opacity duration-300",
+          "relative flex h-full flex-col p-6 pt-14 transition-opacity duration-300",
           isActive ? "opacity-100 delay-150" : "pointer-events-none opacity-0",
         )}
       >
-        <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
+        <div aria-hidden="true" className="min-h-0 flex-1">
+          {isActive && <Preview />}
+        </div>
+        <h3 className="mt-5 text-xl font-semibold text-foreground">{service.title}</h3>
         <p className="mt-2 max-w-[42ch] text-sm leading-relaxed text-foreground-muted">
           {service.description}
         </p>
@@ -169,7 +168,7 @@ export function Services() {
           etapa do seu produto digital.
         </motion.p>
 
-        <div className="mt-12 flex flex-col gap-3 lg:h-[440px] lg:flex-row">
+        <div className="mt-12 flex flex-col gap-3 lg:h-[480px] lg:flex-row">
           {SERVICES.map((service, i) => (
             <ServicePanel
               key={service.title}
