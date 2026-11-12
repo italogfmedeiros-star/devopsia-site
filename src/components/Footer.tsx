@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { Logo, Wordmark } from "./Logo";
 
 const LINKS = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#processo", label: "Como trabalhamos" },
-  { href: "#portfolio", label: "Portfólio" },
-  { href: "#contato", label: "Falar com a gente" },
+  { href: "/#servicos", label: "Serviços" },
+  { href: "/#processo", label: "Como trabalhamos" },
+  { href: "/#portfolio", label: "Portfólio" },
+  { href: "/#contato", label: "Falar com a gente" },
 ];
 
 export function Footer() {
@@ -15,10 +16,10 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-10 sm:flex-row">
           <div className="max-w-xs">
-            <a href="#top" className="pop flex items-center gap-2.5">
+            <Link href="/#top" className="pop flex items-center gap-2.5">
               <Logo className="h-8 w-8" />
               <Wordmark className="text-foreground text-lg" />
-            </a>
+            </Link>
             <p className="mt-4 text-sm leading-relaxed text-foreground-muted">
               Sites, aplicativos e sistemas sob medida para empresas que
               precisam de software confiável.
@@ -27,19 +28,27 @@ export function Footer() {
 
           <nav className="flex flex-col gap-3 sm:items-end">
             {LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-sm text-foreground-muted transition-all duration-300 hover:translate-x-1 hover:text-foreground sm:hover:-translate-x-1"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/[0.06] pt-6 text-sm text-foreground-dim sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} Devopsia. Todos os direitos reservados.</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <p>© {year} Devopsia. Todos os direitos reservados.</p>
+            <span aria-hidden="true" className="hidden text-white/15 sm:inline">
+              ·
+            </span>
+            <Link href="/politica-de-privacidade" className="hover:text-foreground-muted">
+              Política de Privacidade
+            </Link>
+          </div>
           <a href="mailto:contato@devopsia.com.br" className="hover:text-foreground-muted">
             contato@devopsia.com.br
           </a>
